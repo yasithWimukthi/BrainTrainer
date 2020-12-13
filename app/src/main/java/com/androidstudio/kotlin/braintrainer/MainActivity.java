@@ -14,14 +14,26 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
     private ArrayList<Integer> answers = new ArrayList<>();
+    private TextView resultTextView;
+    private TextView pointsTextView;
     private int locationOfCorrectAnswer;
+    private int score = 0;
+    private int numOfQuestions = 0;
 
     public void start(View view){
         startButton.setVisibility(view.INVISIBLE);
     }
 
     public void chooseAnswer(View view){
-
+        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
+            score++;
+            resultTextView.setText("Correct !");
+        }
+        else {
+            resultTextView.setText("Incorrect !");
+        }
+        numOfQuestions++;
+        pointsTextView.setText(Integer.toString(score)+ "/" +Integer.toString(numOfQuestions));
     }
 
     @Override
@@ -35,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         Button button1 = (Button) findViewById(R.id.button1);
         Button button2 = (Button) findViewById(R.id.button2);
         Button button3 = (Button) findViewById(R.id.button3);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        pointsTextView = (TextView) findViewById(R.id.pointsTextView);
         int incorrectAnswer;
 
         Random rand = new Random();
