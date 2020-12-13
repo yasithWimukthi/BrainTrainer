@@ -3,6 +3,7 @@ package com.androidstudio.kotlin.braintrainer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button2;
     private Button button3;
     private TextView sumTextView;
+    private TextView timerTextView;
     private int locationOfCorrectAnswer;
     private int score = 0;
     private int numOfQuestions = 0;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         sumTextView.setText(Integer.toString(num1) + " + " + Integer.toString(num2));
 
         locationOfCorrectAnswer = rand.nextInt(4);
+
+        answers.clear();
 
         for(int i=0 ; i<4 ; i++){
             if(i==locationOfCorrectAnswer){
@@ -87,7 +91,22 @@ public class MainActivity extends AppCompatActivity {
         button3 = (Button) findViewById(R.id.button3);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         pointsTextView = (TextView) findViewById(R.id.pointsTextView);
+        timerTextView = (TextView)findViewById(R.id.timerTextView);
 
         generateQuestion();
+
+        new CountDownTimer(30100,1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerTextView.setText(String.valueOf(millisUntilFinished/1000)+"s");
+            }
+
+            @Override
+            public void onFinish() {
+                resultTextView.setText("Your score : " +Integer.toString(score)+ "/" +Integer.toString(numOfQuestions) );
+                timerTextView.setText("0s");
+            }
+        }.start();
     }
 }
