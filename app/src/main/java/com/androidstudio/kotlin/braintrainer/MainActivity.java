@@ -1,6 +1,7 @@
 package com.androidstudio.kotlin.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,13 +24,17 @@ public class MainActivity extends AppCompatActivity {
     private Button button3;
     private TextView sumTextView;
     private TextView timerTextView;
+    private Button playAgainButton;
+    private ConstraintLayout game;
     private int locationOfCorrectAnswer;
     private int score = 0;
     private int numOfQuestions = 0;
     private int incorrectAnswer;
 
     public void start(View view){
+
         startButton.setVisibility(view.INVISIBLE);
+        game.setVisibility(ConstraintLayout.VISIBLE);
     }
 
     public void chooseAnswer(View view){
@@ -78,20 +83,14 @@ public class MainActivity extends AppCompatActivity {
         button3.setText(Integer.toString(answers.get(3)));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void playAgain(final View view){
+        score = 0;
+        numOfQuestions = 0;
 
-        startButton = (Button) findViewById(R.id.startButton);
-        sumTextView = (TextView) findViewById(R.id.sumTextView);
-        button0 = (Button) findViewById(R.id.button0);
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button) findViewById(R.id.button3);
-        resultTextView = (TextView) findViewById(R.id.resultTextView);
-        pointsTextView = (TextView) findViewById(R.id.pointsTextView);
-        timerTextView = (TextView)findViewById(R.id.timerTextView);
+        timerTextView.setText("30s");
+        pointsTextView.setText("0/0");
+        resultTextView.setText("");
+        playAgainButton.setVisibility(View.INVISIBLE);
 
         generateQuestion();
 
@@ -106,7 +105,30 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 resultTextView.setText("Your score : " +Integer.toString(score)+ "/" +Integer.toString(numOfQuestions) );
                 timerTextView.setText("0s");
+                playAgainButton.setVisibility(View.VISIBLE);
             }
         }.start();
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        startButton = (Button) findViewById(R.id.startButton);
+        sumTextView = (TextView) findViewById(R.id.sumTextView);
+        button0 = (Button) findViewById(R.id.button0);
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        pointsTextView = (TextView) findViewById(R.id.pointsTextView);
+        timerTextView = (TextView)findViewById(R.id.timerTextView);
+        playAgainButton = (Button) findViewById(R.id.playAgainButton);
+        game = (ConstraintLayout) findViewById(R.id.game);
+
+        playAgain(findViewById(R.id.playAgainButton));
+
     }
 }
